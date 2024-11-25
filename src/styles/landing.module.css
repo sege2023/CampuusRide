@@ -1,0 +1,23 @@
+.wild{
+    background-color: whitesmoke;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+}
+.wild h1{
+    margin: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+.wild h1 span{
+    justify-content: center;
+}
+.button{
+    border-radius: 5px;
+    height: 50px;
+    margin: 20px;
+}
+
+
