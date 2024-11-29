@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "-": "^0.0.1",
+    "@types/node": "^22.10.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "D": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongodb": "^6.11.0",
+    "mongoose": "^8.8.3",
+    "nodemon": "^3.1.7",
+    "typescript": "^5.7.2"
+  },
+  "name": "server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "start": "node dist/app.mjs",
+    "dev": "npx tsc -w & nodemon dist/app.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
