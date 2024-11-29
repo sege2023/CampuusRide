@@ -1,0 +1,17 @@
+.container{
+    background-color: whitesmoke;
+    height: inherit;
+    color: black;
+    /* margin-top:; */
+    overflow-y: auto;
+}
+.formspace{
+    /* background-color: whitesmoke; */
+    /* align-items: center; */
+    justify-content: center;
+
+}
+.formspace input{
+    margin: 10px;
+    width: 70%;
+}
