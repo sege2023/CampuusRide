@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
+import { router as driversignupRouter } from './mongodb/routes/driver-signup.router.mjs';
 dotenv.config();
 
 // const MongoDB_Connection_String = 'mongodb://localhost:27017'
@@ -21,12 +21,14 @@ try {
     console.log('Error conecting to MongoDB', e)
 }
 
-const PORT = 8000;
+const PORT = 9000;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cors())
 app.use(cookieParser());
+
+app.use('/api', driversignupRouter)
 app.get('/', (req,res) =>{
     res.status(200).send('hello, world!');
 });

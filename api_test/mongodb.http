@@ -1,0 +1,18 @@
+# 
+@baseUrl = https://127.0.0.1:27017:9000/api 
+
+### Get driver endpoint
+GET {{{baseUrl}}}/getDriver
+
+### Add driver endpoint
+POST {{{baseUrl}}}/addDriver
+Content-Type: application/json
+
+{
+    "name": "sunless", 
+    "email": "sunless@gmail.com",
+    "phoneNumber": "08149514205",
+    "plateNumber": "LND-567DE",
+    "carDescription": "toyota camry black",
+    "password": "lomotif"
+}
