@@ -1,0 +1,27 @@
+.formbody{
+    background-color: whitesmoke;
+    height: inherit;
+    color: black;
+    /* margin-top:; */
+    overflow-y: auto;
+    gap: 1rem;
+}
+.formbody div{
+    display: flex;
+    flex-direction: column;
+}
+.formbody label {
+    font-weight: bold; /* Optional: Makes labels bold */
+}
+  
+.formbody input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+  
+.error {
+    color: red;
+    font-size: 0.875rem; /* Smaller font size */
+    margin-top: 0.25rem; /* Adds a small gap above the error text */
+}

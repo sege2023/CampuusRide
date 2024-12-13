@@ -9,6 +9,7 @@
     "express": "^4.21.1",
     "mongodb": "^6.11.0",
     "mongoose": "^8.8.3",
+    "nodemailer": "^6.9.16",
     "nodemon": "^3.1.7",
     "typescript": "^5.7.2"
   },
@@ -18,10 +19,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc",
+    "build": "rimraf dist && npx tsc",
     "start": "node dist/app.mjs",
     "dev": "concurrently \"npx tsc -w\" \"nodemon dist/app.mjs\""
-
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,8 @@
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "concurrently": "^9.1.0"
+    "@types/nodemailer": "^6.4.17",
+    "concurrently": "^9.1.0",
+    "rimraf": "^6.0.1"
   }
 }
