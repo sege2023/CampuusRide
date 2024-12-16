@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styles from '../styles/driver-signup.module.css'
 import { useNavigate } from "react-router-dom";
-
 interface DriverSignupFormData {
     name: string;
     email: string;

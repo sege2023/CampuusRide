@@ -1,7 +1,26 @@
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 import baseUserSchema from "./base-signup.model.mjs";
 const customerSchema = new mongoose.Schema({
-    ...baseUserSchema.obj, // Only base fields
+    // ...baseUserSchema.obj, // Only base fields
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  phoneNumber: { type: String, required: true },
+  userType: { type: String, enum: ["driver", "customer"], required: true }, // Differentiate user types
+  password: { type: String, required: true },
+  // verificationCode: {type: String},
+  // expiresAt: {type:Date},
+  createdAt: { type: Date, default: Date.now },
   });
-  
-export const Customer = mongoose.model("Customer", customerSchema, "customers_records");
+
+// interface CustomerUserDocument extends mongoose.Document {
+//     name:string;
+//     email: string;
+//     phoneNumber: string;
+//     password: string;
+//     userType: "customer"
+//     // verificationCode: string;
+//     // expiresAt: Date;
+// }
+type Customer = InferSchemaType<typeof customerSchema>
+const Customermodel = mongoose.model<Customer>("Customers", customerSchema, "customers_records");
+export default Customermodel

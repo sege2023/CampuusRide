@@ -1,5 +1,3 @@
-// import express from "express";
-// import { Express } from "express";
 import { Router, Request, Response} from "express";
 import Tempuser from "../models/account-verification.model.mjs";
 import { sendVerificationEmail, generate_verification_code } from "../../utils/email.util.mjs";
@@ -62,7 +60,7 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
   
       // Generate verification code
       const verificationCode = generate_verification_code();
-      const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();    
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000);    
       
       // Define base user data interface
       interface BaseUserData {
@@ -72,7 +70,7 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
         userType: string;
         password: string;
         verificationCode: string;
-        expiresAt: string;
+        expiresAt: Date;
         isVerified: boolean;
       }
   

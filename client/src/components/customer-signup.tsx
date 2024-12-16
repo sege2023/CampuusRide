@@ -23,7 +23,6 @@ const Customer_ui = () =>{
         name: "",
         email: "",
         phoneNumber: "",
-        plateNumber: "",
         password: "",
         confirmPassword: "",
       });
@@ -108,7 +107,7 @@ const Customer_ui = () =>{
         navigate("/account-verification");
     
         // Proceed to send the data to the backend
-        console.log("Driver Signup Data:", formData);
+        console.log("Customer Signup Data:", formData);
       };
     return(
     <form className={styles.formbody} onSubmit={handleSubmit}>

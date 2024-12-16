@@ -13,12 +13,32 @@
   
 // export const Driver = mongooose.model('Drivers', DriverSignupSchema);
 
-import mongoose from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 import baseUserSchema from "./base-signup.model.mjs";
 const driverSchema = new mongoose.Schema({
-  ...baseUserSchema.obj, // Include fields from the base schema
+  // ...baseUserSchema.obj, // Include fields from the base schema
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  phoneNumber: { type: String, required: true },
+  userType: { type: String, enum: ["driver", "customer"], required: true }, // Differentiate user types
+  password: { type: String, required: true },
+  // verificationCode: {type: String},
+  // expiresAt: {type:Date},
+  createdAt: { type: Date, default: Date.now },
   plateNumber: { type: String, required: true },
   carDescription: { type: String, required: true },
 });
 
-export const Driver = mongoose.model("Driver", driverSchema, "drivers_records");
+// interface DriverUserDocument extends mongoose.Document {
+//     name:string;
+//     email: string;
+//     phoneNumber: string;
+//     password: string;
+//     userType:"driver"
+//     // verificationCode: string;
+//     // expiresAt: Date;
+//   }
+type Driver = InferSchemaType<typeof driverSchema>
+
+const Drivermodel = mongoose.model<Driver>("Drivers", driverSchema, "drivers_records");
+export default Drivermodel

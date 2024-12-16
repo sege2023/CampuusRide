@@ -3,7 +3,8 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { router as driversignupRouter } from './mongodb/routes/verification.router.mjs';
+// import { router as driversignupRouter } from './mongodb/routes/verification.router.mjs';
+import { verify_router } from './mongodb/routes/verification.router.mjs';
 import register_router from './mongodb/routes/temp-user-reg.route.mjs';
 dotenv.config();
 

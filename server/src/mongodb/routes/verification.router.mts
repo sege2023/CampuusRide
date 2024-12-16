@@ -1,42 +1,70 @@
 import express from 'express'
-const router  = express.Router()
-import { Driver } from '../models/driver-signup.model.mjs'
-import { Customer } from '../models/customer-signup.model.mjs'
-// router.get('/getDriver', async(req,res)=>{
-//     try {
-//         const data = await Driver.find({})
-//         console.log('Driver retrived')
-//         res.status(200).json(data)
-//     } catch (e) {
-//         console.log('Error occured retrieving students') 
-//     }
-// })
+const verify_router  = express.Router()
+import Tempuser from '../models/account-verification.model.mjs'
+import Drivermodel from '../models/driver-signup.model.mjs'
+import Customermodel from '../models/customer-signup.model.mjs'
+verify_router.post("/api/verify", async (req, res):Promise<void> => {
+    const { email, verificationCode } = req.body;
+  
+    try {
+      let user = await Tempuser.findOne({email, verificationCode})
+      // Verify code and check expiration
+      if (!user) {
+        res.status(400).json({ error: "Invalid verification code" });
+        return;
+      }
+  
+      if (!user?.expiresAt || new Date(user.expiresAt) < new Date()) {
+        res.status(400).json({ error: "Verification code expired" });
+        return;
 
-// router.post('/addDriver', async(req, res)=>{
-//     try {
-//         const data = await Driver.create(req.body)
-//         console.log('A student has bben added to database');
-//         res.status(200).json(data)
-//     } catch (e) {
-//         console.log("error, creating driver")
-//     }
-// })
+      }
+      
+      const userData = {
+        name: user.name,
+        email: user.email,
+        userType: user.userType,
+        phoneNumber: user.phoneNumber,
+        isVerified: true
+      };
 
-// router.get('/:id', async(req,res) =>{
-//     try {
-//         const data = await Driver.findById(req.params.id)
-//         console.log('A student is retrievd by ID')
-//         res.status(200).json(data)
-//     } catch (e) {
-//         console.log('Error retrieving a student:' ,e)
-//     }
-// })
-// router.post("/verify-code", async (req, res) => {
-//     try {
-//         const{email,enteredCode} = req.body
-//         const temp_user_data = await.
-//     } catch (error) {
-        
-//     }
-// })
-export {router}
+      const finalUserData = user.userType === 'driver' 
+    ? {
+        ...userData,
+        plateNumber: user.plateNumber,
+        carDescription: user.carDescription,
+      }
+    : userData;
+
+    
+      const permanentCollection = await(
+        user.userType === 'driver' 
+        ? Drivermodel.create(finalUserData)
+        : Customermodel.create(finalUserData)
+      // console.log('Insertion result', permanentCollection)
+      )
+      
+      // // Insert into permanent collection
+      // await permanentCollection.create({
+      //   ...user.toObject()
+      //   // isVerified: true
+      // });
+  
+      // Remove from temporary collection
+      // await (user).deleteOne({ email });
+      await Tempuser.findByIdAndDelete({email,verificationCode})
+  
+      res.status(200).json({ 
+        message: "User verified successfully",
+        userType: user.userType 
+      });
+  
+    } catch (error) {
+      console.error("Verification error:", error);
+      res.status(500).json({ 
+        error: "Verification failed"
+      });
+    }
+  });
+  
+export {verify_router}
