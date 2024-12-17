@@ -20,6 +20,9 @@ const Landing = () =>{
             <button className={styles.button} onClick={() => handleNavigate('/login')}>
                 Login
             </button>
+            <button className={styles.button} onClick={() => handleNavigate('/account-verification')}>
+                verify
+            </button>
         </div>
     )
 }

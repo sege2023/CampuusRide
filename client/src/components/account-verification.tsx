@@ -7,10 +7,16 @@ interface AccountVerificationProps{
   email_front: string;
   onVerificationSuccess?:() => void
 }
-const AccountVerification:React.FC<AccountVerificationProps> = () => {
+const AccountVerification:React.FC<AccountVerificationProps> = (
+
+  email_front,
+  // onVerificationSuccess
+
+) => {
   const [code, setCode] = useState(["", "", "", "", ""]);
   const [message, setMessage] = useState("");
   const [isResending, setIsResending] = useState(false);
+  const [timer,setTimer] = useState(false)
 
   const handleChange = (index: number, value: string) => {
     if (/^\d?$/.test(value)) { // Only allow digits
@@ -29,7 +35,7 @@ const AccountVerification:React.FC<AccountVerificationProps> = () => {
     const response = await fetch("/api/verify-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, verificationCode:enteredCode }),
+      body: JSON.stringify({ email:email_front, verificationCode:enteredCode }),
     });
 
     const result = await response.json();
@@ -45,7 +51,7 @@ const AccountVerification:React.FC<AccountVerificationProps> = () => {
     await fetch("/api/resend-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email:email_front }),
     });
     setMessage("A new code has been sent to your email.");
     setIsResending(false);
@@ -60,6 +66,8 @@ const AccountVerification:React.FC<AccountVerificationProps> = () => {
             key={idx}
             id={`input-${idx}`}
             type="text"
+            inputMode="numeric"  // Better for mobile numeric input
+            pattern="[0-9]*"
             value={num}
             onChange={(e) => handleChange(idx, e.target.value)}
             maxLength={1}
@@ -70,6 +78,7 @@ const AccountVerification:React.FC<AccountVerificationProps> = () => {
       <button onClick={handleSubmit}>Verify</button>
       {message && <p className={styles.message}>{message}</p>}
       {!isResending && <button onClick={handleResend}>Resend Code</button>}
+      {/* <p>this is not going to be there it is going to be an automatic routing when they click on the signup button </p> */}
     </div>
   );
 };

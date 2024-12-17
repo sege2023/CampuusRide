@@ -1,0 +1,23 @@
+.success {
+    color: green;
+    font-size: 1.25rem;
+    text-align: center;
+  }
+  
+.checkmark {
+    font-size: 3rem;
+    color: green;
+}
+.container{
+    background-color: whitesmoke;
+    height: inherit;
+    overflow-y: auto;
+    color: black;
+}
+.codeInput{
+    width: 2vw;
+    height: 2vh;
+    margin: 10px;
+    padding: 10px;
+}
+  
