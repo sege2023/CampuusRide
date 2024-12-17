@@ -5,42 +5,6 @@ import { sendVerificationEmail, generate_verification_code } from "../../utils/e
 const register_router = Router()
 // register_router.use(express.json());
 
-// app.post("/api/register", async (req, res) => {
-//   const { name, email, phoneNumber, userType, password ,plateNumber, carDescription} = req.body;
-
-//   try {
-//     // Generate verification code
-//     const verificationCode = generate_verification_code;
-//     const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();    
-//     // Save temporary user
-//     interface UserData {
-//         name: string;
-//         email: string;
-//         phoneNumber: string;
-//         userType: string;
-//         password: string;
-//         verificationCode: string;
-//         expiresAt: string;
-//         plateNumber?: string;
-//         carDescription?: string;
-//       }
-//     const tempUserData: UserData = { name, email, phoneNumber, userType, password, verificationCode, expiresAt };
-
-//     // Add additional fields for drivers
-//     if (userType === "driver") {
-//       tempUserData.plateNumber = plateNumber;
-//       tempUserData.carDescription = carDescription;
-//     }
-
-//     // Send verification email
-//     await sendVerificationEmail(email, verificationCode);
-
-//     res.status(200).json({ success: true, message: "Verification email sent." });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: "Registration failed.", error });
-//   }
-// });
-
 register_router.post("/register", async (req:Request, res:Response):Promise<any> => { 
     const { 
       name, 
@@ -103,16 +67,6 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
           });
         }
   
-        // Create driver-specific user data
-        // const driverUserData: DriverUserData = {
-        //   ...baseUserData,
-        //   plateNumber,
-        //   carDescription
-        // };
-  
-        // Insert into drivers temporary collection
-        // collection = database.collection('temporary_drivers');
-        // await collection.insertOne(driverUserData);
         const tempUser = new Tempuser({
             name, 
             email, 

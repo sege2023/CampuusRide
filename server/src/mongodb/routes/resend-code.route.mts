@@ -1,9 +1,9 @@
 import express from 'express';
 import Tempuser from '../models/account-verification.model.mjs';
-
+import { sendVerificationEmail } from '../../utils/email.util.mjs';
 const resend_router = express.Router();
 
-resend_router.post("/api/resend-verification", async (req, res) => {
+resend_router.post("/api/resend-code", async (req, res) => {
   const { email } = req.body;
 
   try {
@@ -11,9 +11,10 @@ resend_router.post("/api/resend-verification", async (req, res) => {
     const existingUser = await Tempuser.findOne({ email });
 
     if (!existingUser) {
-      return res.status(404).json({ 
+      res.status(404).json({ 
         error: "No pending verification found for this email" 
       });
+      return;
     }
 
     // Generate a new verification code

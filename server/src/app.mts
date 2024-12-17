@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 // import { router as driversignupRouter } from './mongodb/routes/verification.router.mjs';
 import { verify_router } from './mongodb/routes/verification.router.mjs';
 import register_router from './mongodb/routes/temp-user-reg.route.mjs';
+import { resend_router } from './mongodb/routes/resend-code.route.mjs';
 dotenv.config();
 
 // const MongoDB_Connection_String = 'mongodb://localhost:27017'
@@ -31,6 +32,8 @@ app.use(cors())
 app.use(cookieParser());
 
 app.use('/api', register_router)
+app.use('/', verify_router)
+app.use('/', resend_router)
 app.get('/', (req,res) =>{
     res.status(200).send('hello, world!');
 });

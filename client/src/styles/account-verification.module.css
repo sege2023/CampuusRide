@@ -1,4 +1,4 @@
-.success {
+/* .success {
     color: green;
     font-size: 1.25rem;
     text-align: center;
@@ -7,12 +7,17 @@
 .checkmark {
     font-size: 3rem;
     color: green;
-}
+} */
 .container{
     background-color: whitesmoke;
     height: inherit;
     overflow-y: auto;
     color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 .codeInput{
     width: 2vw;
@@ -20,4 +25,30 @@
     margin: 10px;
     padding: 10px;
 }
+.submitButton, .resendButton {
+    /* margin-top: 1rem; */
+    /* padding: 0.5rem 1rem; */
+    /* font-size: 1rem; */
+    cursor: pointer;
+    border: none;
+    color: white;
+    margin: 2vw;
+    /* background-color: #007bff; */
+    /* border-radius: 5px; */
+  }
   
+.submitButton:hover, .resendButton:hover {
+    background-color: #0056b3;
+}
+  
+.submitButton:disabled, .resendButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+.buttoncontainer{
+    align-items: center;
+    flex-wrap: wrap;
+    /* flex-direction: row; */
+    /* justify-content: center; */
+    /* margin: 20px; */
+}

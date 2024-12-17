@@ -1,5 +1,4 @@
 import mongoose, { InferSchemaType } from "mongoose";
-import baseUserSchema from "./base-signup.model.mjs";
 const customerSchema = new mongoose.Schema({
     // ...baseUserSchema.obj, // Only base fields
   name: { type: String, required: true },
@@ -7,8 +6,7 @@ const customerSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true },
   userType: { type: String, enum: ["driver", "customer"], required: true }, // Differentiate user types
   password: { type: String, required: true },
-  // verificationCode: {type: String},
-  // expiresAt: {type:Date},
+  matricNumber:{type: String, required: true},
   createdAt: { type: Date, default: Date.now },
   });
 
