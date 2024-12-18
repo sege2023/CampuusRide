@@ -3,7 +3,15 @@ import baseUserSchema from "./base-signup.model.mjs";
 import bcrypt from 'bcrypt'
 
 const TempUserSchema = new mongoose.Schema(
-    {...baseUserSchema.obj,
+    {name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    phoneNumber: { type: String, required: true },
+    userType: { type: String, enum: ["driver", "customer"], required: true }, // Differentiate user types
+    password: { type: String, required: true },
+    matricNumber:{type: String, required:true, unique: true},
+    plateNumber:{type: String, required: true, unique: true},
+    carDescription:{type: String, required:true},
+    createdAt: { type: Date, default: Date.now },
     verificationCode: { type: String, required: true }, // Explicitly defined
     expiresAt: { type: Date, required: true },
     },
@@ -19,6 +27,7 @@ interface TempUserDocument extends mongoose.Document {
     userType:"driver" | "customer"
     plateNumber: string;
     carDescription: string;
+    matricNumber:string;
     verificationCode: string;
     expiresAt: Date;
   }

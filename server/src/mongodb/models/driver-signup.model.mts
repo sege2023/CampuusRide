@@ -16,16 +16,13 @@
 import mongoose, { InferSchemaType } from "mongoose";
 import baseUserSchema from "./base-signup.model.mjs";
 const driverSchema = new mongoose.Schema({
-  // ...baseUserSchema.obj, // Include fields from the base schema
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   phoneNumber: { type: String, required: true },
   userType: { type: String, enum: ["driver", "customer"], required: true }, // Differentiate user types
   password: { type: String, required: true },
-  // verificationCode: {type: String},
-  // expiresAt: {type:Date},
   createdAt: { type: Date, default: Date.now },
-  plateNumber: { type: String, required: true },
+  plateNumber: { type: String, required: true, unique:true},
   carDescription: { type: String, required: true },
 });
 

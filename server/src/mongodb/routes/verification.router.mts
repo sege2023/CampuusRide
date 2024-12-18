@@ -8,7 +8,6 @@ verify_router.post("/api/verify", async (req, res):Promise<void> => {
   
     try {
       let user = await Tempuser.findOne({email, verificationCode})
-      // Verify code and check expiration
       if (!user) {
         res.status(400).json({ error: "Invalid verification code" });
         return;
@@ -29,12 +28,15 @@ verify_router.post("/api/verify", async (req, res):Promise<void> => {
       };
 
       const finalUserData = user.userType === 'driver' 
-    ? {
+      ? {
         ...userData,
         plateNumber: user.plateNumber,
         carDescription: user.carDescription,
       }
-    : userData;
+      : {
+        ...userData,
+        matricNumber: user.matricNumber
+      }
 
     
       const permanentCollection = await(
@@ -44,14 +46,6 @@ verify_router.post("/api/verify", async (req, res):Promise<void> => {
       // console.log('Insertion result', permanentCollection)
       )
       
-      // // Insert into permanent collection
-      // await permanentCollection.create({
-      //   ...user.toObject()
-      //   // isVerified: true
-      // });
-  
-      // Remove from temporary collection
-      // await (user).deleteOne({ email });
       await Tempuser.findByIdAndDelete({email,verificationCode})
   
       res.status(200).json({ 
@@ -64,6 +58,7 @@ verify_router.post("/api/verify", async (req, res):Promise<void> => {
       res.status(500).json({ 
         error: "Verification failed"
       });
+      return;
     }
   });
   

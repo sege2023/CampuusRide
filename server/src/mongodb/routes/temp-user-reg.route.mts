@@ -1,6 +1,7 @@
 import { Router, Request, Response} from "express";
 import Tempuser from "../models/account-verification.model.mjs";
 import { sendVerificationEmail, generate_verification_code } from "../../utils/email.util.mjs";
+import { error } from "console";
 // const register_router = express.Router();
 const register_router = Router()
 // register_router.use(express.json());
@@ -13,7 +14,7 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
       userType, 
       password
     } = req.body;
-  // this mf might come back to bite me in the ass
+
     try {
       // Validate required fields
       if (!name || !email || !phoneNumber || !userType || !password) {
@@ -26,17 +27,17 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
       const verificationCode = generate_verification_code();
       const expiresAt = new Date(Date.now() + 10 * 60 * 1000);    
       
-      // Define base user data interface
-      interface BaseUserData {
-        name: string;
-        email: string;
-        phoneNumber: string;
-        userType: string;
-        password: string;
-        verificationCode: string;
-        expiresAt: Date;
-        isVerified: boolean;
-      }
+      // // Define base user data interface
+      // interface BaseUserData {
+      //   name: string;
+      //   email: string;
+      //   phoneNumber: string;
+      //   userType: string;
+      //   password: string;
+      //   verificationCode: string;
+      //   expiresAt: Date;
+      //   isVerified: boolean;
+      // }
   
       // Define driver-specific interface
       // interface DriverUserData extends BaseUserData {
@@ -44,17 +45,17 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
       //   carDescription: string;
       // }
   
-      // Prepare base user data
-      const baseUserData: BaseUserData = { 
-        name, 
-        email, 
-        phoneNumber, 
-        userType, 
-        password, 
-        verificationCode, 
-        expiresAt,
-        isVerified: false
-      };
+      // // Prepare base user data
+      // const baseUserData: BaseUserData = { 
+      //   name, 
+      //   email, 
+      //   phoneNumber, 
+      //   userType, 
+      //   password, 
+      //   verificationCode, 
+      //   expiresAt,
+      //   isVerified: false
+      // };
   
       // Get the appropriate MongoDB collection based on user type
     //   let collection;
@@ -75,14 +76,25 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
             password, 
             verificationCode,
             expiresAt,
+            plateNumber,
+            carDescription,
             // Add any additional driver-specific fields if needed
-            ...(userType === 'driver' ? { plateNumber, carDescription } : {})
+            // ...(userType === 'driver' ? { plateNumber, carDescription } : {})
           });
           
           await tempUser.save();
 
-      } else if (userType === "customer") {
+      } 
+      
+      else if (userType === "customer") {
         // Insert into customers temporary collection
+        const{matricNumber} = req.body
+        if (!matricNumber) {
+          res.status(400).json({
+            error: "Matric number is required for students"
+          });
+          return;
+        }
         const tempUser = new Tempuser({
             name, 
             email, 
@@ -91,6 +103,8 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
             password, 
             verificationCode,
             expiresAt,
+            matricNumber,
+            // ...(userType === 'customer' ? { matricNumber } : {})
           });
           await tempUser.save();
           
