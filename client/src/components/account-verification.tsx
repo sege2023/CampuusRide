@@ -13,7 +13,7 @@ const AccountVerification:React.FC<AccountVerificationProps> = (
   email_front,
   // onVerificationSuccess
 
-) => {
+  ) => {
   const [code, setCode] = useState(["", "", "", "", ""]);
   const [message, setMessage] = useState("");
   const [isResending, setIsResending] = useState(false);

@@ -81,29 +81,7 @@ const Customer_ui = () =>{
 
         if (hasErrors) return;
         
-        // Check if passwords match
-        // if (formData.password !== formData.confirmPassword) {
-        //   setError("Passwords do not match!");
-        //   return; // Stop submission
-        // }
-
-        // if (formData.phoneNumber.length !== 11 || !/^\d+$/.test(formData.phoneNumber)) {
-        //     setError("Phone number must be exactly 11 digits.");
-        //     return;
-        // }
-
-        // if (!isValidEmail(formData.email)) {
-        //     setError("Please enter a valid email address.");
-        //     return;
-        // }
-
-        // if (!isAlphanumeric(formData.plateNumber)) {
-        //     setError("Plate number must be alphanumeric (letters and numbers only).");
-        //     return;
-        // }
-
-        // setError(null); // Clear the error if no issues
-        // // alert("Sign U!");
+        
         navigate("/account-verification");
     
         // Proceed to send the data to the backend
