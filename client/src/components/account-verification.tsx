@@ -2,23 +2,24 @@
 
 import { useEffect, useState } from "react";
 import styles from "../styles/account-verification.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-interface AccountVerificationProps{
-  email_front: string;
-  onVerificationSuccess?:() => void
-}
-const AccountVerification:React.FC<AccountVerificationProps> = (
+// interface AccountVerificationProps{
+//   email_front: string;
+//   onVerificationSuccess?:() => void
+// }
+const AccountVerification:React.FC = (
 
-  email_front,
+  // email_front,
   // onVerificationSuccess
-
-  ) => {
+) => {
   const [code, setCode] = useState(["", "", "", "", ""]);
   const [message, setMessage] = useState("");
   const [isResending, setIsResending] = useState(false);
   const [timer,setTimer] = useState(0)
   const navigate = useNavigate()
+  const location = useLocation()
+  const email_front = location.state?.email_front;
 
   useEffect(()=>{
     let countdown: NodeJS.Timeout;
@@ -43,6 +44,8 @@ const AccountVerification:React.FC<AccountVerificationProps> = (
       }
     }
   };
+
+  
 
   const handleSubmit = async () => {
     const enteredCode = code.join("");

@@ -6,17 +6,23 @@ interface CustomerSignupFormData {
     name: string;
     email: string;
     phoneNumber: string;
+    matricNumber: string;
     password: string;
     confirmPassword: string;
+    userType: "customer" | "driver";
 }    
+
+
 const Customer_ui = () =>{
 
     const [formData, setFormData] = useState<CustomerSignupFormData>({
         name: "",
         email: "",
         phoneNumber: "",
+        matricNumber: "",
         password: "",
         confirmPassword: "",
+        userType: "customer"
       });
       
       const [errors, setErrors] = useState({
@@ -24,6 +30,7 @@ const Customer_ui = () =>{
         email: "",
         phoneNumber: "",
         password: "",
+        matricNumber: "",
         confirmPassword: "",
       });
     const navigate = useNavigate()
@@ -57,12 +64,12 @@ const Customer_ui = () =>{
         setErrors((prev) => ({ ...prev, [name]: error }));
       };
       
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
         validateField(name, value)
-    }
-   
+      }
+      
     const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
     
@@ -71,7 +78,7 @@ const Customer_ui = () =>{
       };
     
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         let hasErrors = false;
         Object.keys(formData).forEach((field) => {
@@ -80,13 +87,43 @@ const Customer_ui = () =>{
         });
 
         if (hasErrors) return;
+        try {
+          const response = await fetch("/api/register", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                  ...formData,
+                  userType: "customer"
+              }),
+          });
+
+          const data = await response.json();
+          // const data = await response.json()
+
+         if (!response.ok) {
+                throw new Error(data.error || "Registration failed");
+            }
+
+          // Registration successful
+          navigate("/account-verification", { 
+              state: { email: data.email }
+          });
+
+      } catch (error) {
+          setErrors(prev => ({
+              ...prev,
+              submit: error instanceof Error ? error.message : "Registration failed"
+          }));
+      } 
         
         
         navigate("/account-verification");
     
         // Proceed to send the data to the backend
         console.log("Customer Signup Data:", formData);
-      };
+    };
     return(
     <form className={styles.formbody} onSubmit={handleSubmit}>
         <div>
@@ -98,7 +135,7 @@ const Customer_ui = () =>{
             onChange={handleChange}
             onBlur={handleBlur}
             />
-            {errors.name && <span className="error">{errors.name}</span>}
+            {errors.name && <span className={styles.error}>{errors.name}</span>}
         </div>
 
         <div>
@@ -110,7 +147,7 @@ const Customer_ui = () =>{
             onChange={handleChange}
             onBlur={handleBlur}
             />
-            {errors.email && <p className="error">{errors.email}</p>}
+            {errors.email && <p className={styles.error}>{errors.email}</p>}
         </div>
 
         <div>
@@ -118,11 +155,23 @@ const Customer_ui = () =>{
             <input
             type="text"
             name="phoneNumber"
+            value={formData.matricNumber}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            />
+            {errors.phoneNumber && <span className={styles.error}>{errors.phoneNumber}</span>}
+        </div>
+
+        <div>
+            <label>Matric Number:</label>
+            <input
+            type="text"
+            name="matricNumber"
             value={formData.phoneNumber}
             onChange={handleChange}
             onBlur={handleBlur}
             />
-            {errors.phoneNumber && <span className="error">{errors.phoneNumber}</span>}
+            {errors.phoneNumber && <span className={styles.error}>{errors.phoneNumber}</span>}
         </div>
 
         <div>

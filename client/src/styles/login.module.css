@@ -1,0 +1,40 @@
+.forum{
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    height: 100vh;
+    color: black;
+    justify-content: center;
+}
+.forum div{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+.forum label {
+    font-weight: bold; 
+}
+  
+.forum input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.forum button{
+    width: 10vw;
+    margin: 10px;
+}
+.forum span{
+    margin: 10px;
+}
+/* .container{
+    background-color: whitesmoke;
+    height: inherit;
+    overflow-y: auto;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+} */

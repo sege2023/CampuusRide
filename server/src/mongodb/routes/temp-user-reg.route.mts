@@ -1,12 +1,35 @@
 import { Router, Request, Response} from "express";
 import Tempuser from "../models/account-verification.model.mjs";
 import { sendVerificationEmail, generate_verification_code } from "../../utils/email.util.mjs";
+import cors from 'cors'
 import { error } from "console";
 // const register_router = express.Router();
 const register_router = Router()
 // register_router.use(express.json());
+interface RegisterRequestBody {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  userType: 'driver' | 'customer';
+  password: string;
+  plateNumber?: string;
+  carDescription?: string;
+  matricNumber?: string;
+}
 
-register_router.post("/register", async (req:Request, res:Response):Promise<any> => { 
+interface RegisterResponse {
+  message: string;
+  email: string;
+}
+
+interface ErrorResponse {
+  error: string;
+}
+
+register_router.use(cors())
+
+register_router.post("/register", async (req: Request<{}, {}, RegisterRequestBody>,
+  res: Response<RegisterResponse | ErrorResponse>):Promise<void> => { 
     const { 
       name, 
       email, 
@@ -18,54 +41,25 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
     try {
       // Validate required fields
       if (!name || !email || !phoneNumber || !userType || !password) {
-        return res.status(400).json({ 
+        res.status(400).json({ 
           error: "All fields are required" 
         });
+        return;
       }
   
       // Generate verification code
       const verificationCode = generate_verification_code();
       const expiresAt = new Date(Date.now() + 10 * 60 * 1000);    
-      
-      // // Define base user data interface
-      // interface BaseUserData {
-      //   name: string;
-      //   email: string;
-      //   phoneNumber: string;
-      //   userType: string;
-      //   password: string;
-      //   verificationCode: string;
-      //   expiresAt: Date;
-      //   isVerified: boolean;
-      // }
-  
-      // Define driver-specific interface
-      // interface DriverUserData extends BaseUserData {
-      //   plateNumber: string;
-      //   carDescription: string;
-      // }
-  
-      // // Prepare base user data
-      // const baseUserData: BaseUserData = { 
-      //   name, 
-      //   email, 
-      //   phoneNumber, 
-      //   userType, 
-      //   password, 
-      //   verificationCode, 
-      //   expiresAt,
-      //   isVerified: false
-      // };
-  
-      // Get the appropriate MongoDB collection based on user type
+     
     //   let collection;
       if (userType === "driver") {
         // Validate driver-specific fields
         const { plateNumber, carDescription } = req.body;
         if (!plateNumber || !carDescription) {
-          return res.status(400).json({ 
+          res.status(400).json({ 
             error: "Plate number and car description are required for drivers" 
           });
+          return;
         }
   
         const tempUser = new Tempuser({
@@ -109,9 +103,10 @@ register_router.post("/register", async (req:Request, res:Response):Promise<any>
           await tempUser.save();
           
       } else {
-        return res.status(400).json({ 
+        res.status(400).json({ 
           error: "Invalid user type" 
         });
+        return;
       }
   
       // Send verification code (via email or SMS)

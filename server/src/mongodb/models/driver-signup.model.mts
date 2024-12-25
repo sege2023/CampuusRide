@@ -19,7 +19,7 @@ const driverSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   phoneNumber: { type: String, required: true },
-  userType: { type: String, enum: ["driver", "customer"], required: true }, // Differentiate user types
+  userType: { type: String, enum: ["driver"], required: true }, // Differentiate user types
   password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   plateNumber: { type: String, required: true, unique:true},

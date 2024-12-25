@@ -9,6 +9,7 @@ interface DriverSignupFormData {
     carDescription: string;
     password: string;
     confirmPassword: string;
+    userType: "driver"
 }    
 const Driver = () =>{
 
@@ -20,6 +21,7 @@ const Driver = () =>{
         carDescription: "",
         password: "",
         confirmPassword: "",
+        userType: "driver"
       });
       
       const [errors, setErrors] = useState({
@@ -78,7 +80,7 @@ const Driver = () =>{
       };
     
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         let hasErrors = false;
         Object.keys(formData).forEach((field) => {
@@ -87,35 +89,39 @@ const Driver = () =>{
         });
 
         if (hasErrors) return;
+        try {
+          const response = await fetch("/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                ...formData,
+                userType: "customer"
+            }),
+          });
+          const data = await response.json();
+          // const data = await response.json()
+
+         if (!response.ok) {
+                throw new Error(data.error || "Registration failed");
+            }
+
+          // Registration successful
+          navigate("/account-verification", { 
+              state: { email: data.email }
+          });
+
+
+        } catch (error) {
+          setErrors(prev => ({
+            ...prev,
+            submit: error instanceof Error ? error.message : "Registration failed"
+        }));
+        }
         
-        // Check if passwords match
-        // if (formData.password !== formData.confirmPassword) {
-        //   setError("Passwords do not match!");
-        //   return; // Stop submission
-        // }
-
-        // if (formData.phoneNumber.length !== 11 || !/^\d+$/.test(formData.phoneNumber)) {
-        //     setError("Phone number must be exactly 11 digits.");
-        //     return;
-        // }
-
-        // if (!isValidEmail(formData.email)) {
-        //     setError("Please enter a valid email address.");
-        //     return;
-        // }
-
-        // if (!isAlphanumeric(formData.plateNumber)) {
-        //     setError("Plate number must be alphanumeric (letters and numbers only).");
-        //     return;
-        // }
-
-        // setError(null); // Clear the error if no issues
-        // // alert("Sign U!");
-        navigate("/account-verification");
-    
-        // Proceed to send the data to the backend
-        console.log("Driver Signup Data:", formData);
-      };
+        
+    };
     return(
     <form className={styles.formbody} onSubmit={handleSubmit}>
         <div>
