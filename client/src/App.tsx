@@ -9,6 +9,7 @@ import Driver from './components/driver-signup'
 import Customer from './components/customer-signup'
 import Login from './components/login'
 import AccountVerification from './components/account-verification'
+import CustomerHome from './components/customer-homepage'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path='/customer-signup' element ={<Customer/>}/>
         <Route path='/login'element ={<Login/>}/>
         <Route path= '/account-verification' element={<AccountVerification/>}/>
+        <Route path = 'customer-homepage' element ={<CustomerHome/>}/>
       </Routes> 
     </BrowserRouter>
   )  

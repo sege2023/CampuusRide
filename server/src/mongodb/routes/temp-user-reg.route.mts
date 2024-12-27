@@ -1,7 +1,7 @@
 import { Router, Request, Response} from "express";
 import Tempuser from "../models/account-verification.model.mjs";
 import { sendVerificationEmail, generate_verification_code } from "../../utils/email.util.mjs";
-import cors from 'cors'
+// import cors from 'cors'
 import { error } from "console";
 // const register_router = express.Router();
 const register_router = Router()
@@ -26,7 +26,7 @@ interface ErrorResponse {
   error: string;
 }
 
-register_router.use(cors())
+// register_router.use(cors())
 
 register_router.post("/register", async (req: Request<{}, {}, RegisterRequestBody>,
   res: Response<RegisterResponse | ErrorResponse>):Promise<void> => { 
@@ -101,6 +101,7 @@ register_router.post("/register", async (req: Request<{}, {}, RegisterRequestBod
             // ...(userType === 'customer' ? { matricNumber } : {})
           });
           await tempUser.save();
+          console.log("Temporary user saved:", tempUser)
           
       } else {
         res.status(400).json({ 

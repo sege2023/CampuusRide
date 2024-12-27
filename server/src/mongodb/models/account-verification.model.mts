@@ -8,14 +8,15 @@ const TempUserSchema = new mongoose.Schema(
     phoneNumber: { type: String, required: true },
     userType: { type: String, enum: ["driver", "customer"], required: true }, // Differentiate user types
     password: { type: String, required: true },
-    matricNumber:{type: String, required:true, unique: true},
-    plateNumber:{type: String, required: true, unique: true},
-    carDescription:{type: String, required:true},
+    // matricNumber:{type: String, required:true, unique: true},
+    matricNumber:{type: String,required: false,unique: true},
+    plateNumber:{type: String, required: false, unique: true},
+    carDescription:{type: String, required:false},
     createdAt: { type: Date, default: Date.now },
     verificationCode: { type: String, required: true }, // Explicitly defined
     expiresAt: { type: Date, required: true },
     },
-    {strict:false}
+    // {strict:false}
     
 );
 
@@ -47,6 +48,17 @@ TempUserSchema.pre<TempUserDocument>("save", async function (next) {
     } catch (error) {
       return next(error as Error);
     }
+
+    if (this.userType === "customer") {
+      if (!this.matricNumber) {
+        return next(new Error("matric number is required for students"))
+      }
+    } else {
+      if (!this.plateNumber || !this.carDescription) {
+        return next(new Error('Plate number and car description are required for drivers'));
+      }
+    }
+
   });
   
 

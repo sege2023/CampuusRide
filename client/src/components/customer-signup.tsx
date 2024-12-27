@@ -86,7 +86,10 @@ const Customer_ui = () =>{
         if (errors[field as keyof typeof errors]) hasErrors = true;
         });
 
-        if (hasErrors) return;
+        if (hasErrors) {
+          console.log("Form has validation errors.")
+          return;}
+
         try {
           const response = await fetch("/api/register", {
               method: "POST",
@@ -94,27 +97,32 @@ const Customer_ui = () =>{
                   "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                  ...formData,
-                  userType: "customer"
+                  ...formData
+                  // userType: "customer"
               }),
           });
-
+          console.log('Response status:', response.status); 
           const data = await response.json();
           // const data = await response.json()
 
-         if (!response.ok) {
-                throw new Error(data.error || "Registration failed");
-            }
+         if (response.ok) {
+          navigate("/account-verification", { 
+            state: { email: data.email }
+          });
+          }
+          else{
+              setErrors(data.error || "Registration failed");
+          // Assuming you have some way to display errors, like:
+          // setShowError(true); 
+          }
 
           // Registration successful
-          navigate("/account-verification", { 
-              state: { email: data.email }
-          });
+          
 
       } catch (error) {
           setErrors(prev => ({
               ...prev,
-              submit: error instanceof Error ? error.message : "Registration failed"
+              submit: error instanceof Error ? error.message : "Error occured during Registration"
           }));
       } 
         
@@ -155,7 +163,7 @@ const Customer_ui = () =>{
             <input
             type="text"
             name="phoneNumber"
-            value={formData.matricNumber}
+            value={formData.phoneNumber}
             onChange={handleChange}
             onBlur={handleBlur}
             />
@@ -167,11 +175,11 @@ const Customer_ui = () =>{
             <input
             type="text"
             name="matricNumber"
-            value={formData.phoneNumber}
+            value={formData.matricNumber}
             onChange={handleChange}
             onBlur={handleBlur}
             />
-            {errors.phoneNumber && <span className={styles.error}>{errors.phoneNumber}</span>}
+            {errors.phoneNumber && <span className={styles.error}>{errors.matricNumber}</span>}
         </div>
 
         <div>
@@ -198,7 +206,7 @@ const Customer_ui = () =>{
             {errors.confirmPassword && <p className={styles.error}>{errors.confirmPassword}</p>}
         </div>
 
-        <button type="submit">Sign Up</button>
+        <button onClick={handleSubmit} type="submit">Sign Up</button>
     </form>
     )
 

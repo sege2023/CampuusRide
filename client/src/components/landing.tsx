@@ -23,6 +23,9 @@ const Landing = () =>{
             <button className={styles.button} onClick={() => handleNavigate('/account-verification')}>
                 verify
             </button>
+            <button className={styles.button} onClick={() => handleNavigate('/customer-homepage')}>
+                Customer Home
+            </button>
         </div>
     )
 }
