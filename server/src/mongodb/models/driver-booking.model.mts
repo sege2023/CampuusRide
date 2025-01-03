@@ -1,11 +1,18 @@
-import { model, Schema } from "mongoose";
-const driverBookingSchema = new Schema({
+import { InferSchemaType, model, Schema } from "mongoose";
+const DriverBookingSchema = new Schema({
     driverId: { type: Schema.Types.ObjectId, ref: "Driver", required: true }, // Reference to the Driver schema
-    startTime:{type: Date, required: true},
-    endTime:{type:Date, required: true},
+    date:{type: Date, required:true},
+    timeSlot:{
+        startTime:{type: Date, required: true},
+        endTime:{type:Date, required: true},
+    },
     seatsAvailable:{ type:Number, default: 4, min: 0, max:4 },
+    createdAt:{type: Date, required:true}
     
 })
+type Booking = InferSchemaType<typeof DriverBookingSchema>
+const BookingModel = model<Booking>("Booking", DriverBookingSchema, "booking_record")
+export default BookingModel
 
 // plateNumber: String, // Cached from the Driver schema for convenience
     // name: String, // Cached from the Driver schema

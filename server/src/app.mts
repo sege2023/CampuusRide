@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import redis, { createClient } from 'redis';
 // import { router as driversignupRouter } from './mongodb/routes/verification.router.mjs';
 import { verify_router } from './mongodb/routes/verification.router.mjs';
 import register_router from './mongodb/routes/temp-user-reg.route.mjs';
@@ -23,6 +24,18 @@ try {
 } catch (e) {
     console.log('Error conecting to MongoDB', e)
 }
+const redisClient = createClient()
+async function connecttoRedis() {
+    await redisClient.connect();
+    console.log('Connected to Redis')
+}
+try {
+    await connecttoRedis()
+} catch (error) {
+    console.error('Error connecting to Redis:', error)
+}
+
+export {redisClient}
 
 const PORT = 9000;
 const app = express();

@@ -10,6 +10,7 @@ import Customer from './components/customer-signup'
 import Login from './components/login'
 import AccountVerification from './components/account-verification'
 import CustomerHome from './components/customer-homepage'
+import Booking from './components/booking'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path='/login'element ={<Login/>}/>
         <Route path= '/account-verification' element={<AccountVerification/>}/>
         <Route path = 'customer-homepage' element ={<CustomerHome/>}/>
+        <Route path='/booking' element = {<Booking/>}/>
       </Routes> 
     </BrowserRouter>
   )  
