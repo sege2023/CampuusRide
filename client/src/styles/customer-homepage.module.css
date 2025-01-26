@@ -1,9 +1,11 @@
 .container{
   /* background: linear-gradient(to right, ); */
-  background: linear-gradient(to top, #1F1F1F 90%, rgb(13,172,134)50%);
+  background: linear-gradient(to top, #09090B 90%, rgb(13,172,134)50%);
   height: inherit;
   /* border-radius: px; */
   overflow-y: auto;
+  position: relative;
+
 }
 .book{
   display: flex;
@@ -63,4 +65,19 @@
   box-shadow: 1px ; 
   align-items: center;
   margin: 10px;
+}
+.footer{
+  display: flex;
+  width: 100%;
+  /* justify-self: end; */
+  /* align-items: end; */
+  /* align-self: center; */
+  justify-content: space-evenly;
+  /* justify-self: baseline; */
+  background-color: #1DC99B;
+  /* align-self: flex-end; */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 8vh;
 }

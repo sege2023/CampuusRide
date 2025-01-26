@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../styles/customer-homepage.module.css"
-import { CarFront,Moon, Sun, Sunset } from "lucide-react";
+import { CalendarClock, CarFront,CircleUserRound,Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 const CustomerHome: React.FC = () => {
   const navigate = useNavigate()
@@ -17,8 +17,18 @@ const CustomerHome: React.FC = () => {
           <CarFront size={40} />
         </div>
       </div>
-      <div>
-        
+      <div className={styles.footer}>
+        <div>
+        <Home/>
+        <p>Home</p>
+        </div>
+        <div><CalendarClock/> 
+        <p>Rides</p>
+        </div>
+        <div>
+        <CircleUserRound/>
+        <p>User</p>
+        </div>
       </div>
     </div>
   );

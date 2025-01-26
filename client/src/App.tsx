@@ -11,6 +11,8 @@ import Login from './components/login'
 import AccountVerification from './components/account-verification'
 import CustomerHome from './components/customer-homepage'
 import Booking from './components/booking'
+import DriverHome from './components/driver-homepage'
+import DriverAvailabilityForm from './components/availabilty'
 
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
         <Route path= '/account-verification' element={<AccountVerification/>}/>
         <Route path = 'customer-homepage' element ={<CustomerHome/>}/>
         <Route path='/booking' element = {<Booking/>}/>
+        <Route path='/driver-homepage' element= {<DriverHome/>}/>
+        <Route path='/availabilty' element={<DriverAvailabilityForm/>}/>
       </Routes> 
     </BrowserRouter>
   )  

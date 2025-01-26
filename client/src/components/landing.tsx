@@ -26,6 +26,9 @@ const Landing = () =>{
             <button className={styles.button} onClick={() => handleNavigate('/customer-homepage')}>
                 Customer Home
             </button>
+            <button className={styles.button} onClick={() => handleNavigate('/driver-homepage')}>
+                Driver Home
+            </button>
         </div>
     )
 }
