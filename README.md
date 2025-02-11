@@ -1,6 +1,16 @@
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Getting Started
+
+### 1. Fork and Clone the Repository
+
+First, fork this repository to your GitHub account. Then, clone it to your local machine:
+
+```bash
+git clone https://github.com/sege2023/CampuusRide.git
+cd CampuusRide
+
 
 Currently, two official plugins are available:
 
@@ -47,4 +57,11 @@ export default tseslint.config({
     ...react.configs['jsx-runtime'].rules,
   },
 })
+```
+## Installing Dependencies
+This project has both client and server dependencies. To install them, run the following commands:
+```bash
+#install client dependencies
+cd client
+npm install
 ```
